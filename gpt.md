@@ -17,7 +17,70 @@ CREATE TABLE `sys_org` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统组织架构表';
 ```
 
-# 代码模板
+# 代码模板  
+# AbstractEntity
+
+```java
+package com.crunii.common.core.entity;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+/**
+ * 实体抽象类
+ *
+ * @Author Liuyh
+ * @Date 2023/3/12
+ * @Version V0.0.1
+ */
+@Data
+public abstract class AbstractEntity<T extends AbstractEntity<?>> extends Model<T> {
+
+    /**
+     * 主键
+     */
+    private String id;
+
+    /**
+     * 是否删除(0:否，1:是)
+     */
+    @TableLogic
+    @TableField("is_deleted")
+    @JsonIgnore
+    private Boolean isDeleted;
+
+    /**
+     * 创建时间
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+
+    /**
+     * 创建人id
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private String createUserId;
+
+    /**
+     * 更新人id
+     */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String updateUserId;
+
+}
+```
 
 # Entity
 
